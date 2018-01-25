@@ -1,11 +1,20 @@
 import numpy as np
 from sklearn import datasets, linear_model
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, make_scorer
+from sklearn import pipeline, grid_search
+from sklearn.model_selection import GridSearchCV
 from utils.parser import params 
 from utils.preproc import read_data
 import pdb
 import pandas as pd
+
+
+def fmean_squared_error(ground_truth, predictions):
+    fmean_squared_error_ = mean_squared_error(ground_truth, predictions)**0.5
+    return fmean_squared_error_
+
+RMSE  = make_scorer(fmean_squared_error, greater_is_better=False)
 
 if __name__ == '__main__':
 	train_1 = params["train_1"]
@@ -16,12 +25,23 @@ if __name__ == '__main__':
 	X_train, y_train, X_val, = read_data(test_1, test_9, hero_data, test=1)
 	
 	regr_linear = linear_model.LinearRegression()
-	regr = RandomForestRegressor(n_estimators=100, max_depth=19)
-	regr.fit(X_train, y_train)
-	regr_linear.fit(X_train, y_train)
-	y_pred = regr.predict(X_val)
-	y_pred_linear = regr_linear.predict(X_val)
-	final_pred = (y_pred+y_pred_linear)/2
+	print('processing GridSearch')
+	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
+	rf_regr = RandomForestRegressor()
+	model = GridSearchCV(rf_regr,parameters, n_jobs = 3, cv = 10)
+	pdb.set_trace()
+	model.fit(X_train, y_train)
+	print("Best parameters found by grid search:")
+	print(model.best_params_)
+	print("Best CV score:")
+	print(model.best_score_)
+	
+	# regr_linear.fit(X_train, y_train)
+
+	y_pred = model.predict(X_val)
+	# y_pred_linear = regr_linear.predict(X_val)
+	# final_pred = (y_pred+y_pred_linear)/2
+	final_pred = y_pred
 	
 	def submission():
 		data = [[X_val["id"].iloc[i], final_pred[i]] for i in range(len(final_pred))]
