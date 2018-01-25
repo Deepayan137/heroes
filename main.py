@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	rf_model.fit(X_test, y_test)
 	ada_regr.fit(X_test, y_test)
 	y_pred_rf = rf_model.predict(X_val)
-	y_pred_ada = ada_regr.fit(X_val)
+	y_pred_ada = ada_regr.predict(X_val)
 	# y_pred_linear = regr_linear.predict(X_val)
 	# final_pred = (y_pred+y_pred_linear)/2
 	final_pred = (y_pred_rf + y_pred_ada)/2
