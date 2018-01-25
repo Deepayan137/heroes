@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	# Model Creation
 	print('processing GridSearch')
 	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10, 100]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
-	model = RandomForestRegressor()
+	rf_regr = RandomForestRegressor()
 	model = GridSearchCV(rf_regr,parameters, n_jobs = -1, cv = 5, scoring=RMSE)
 
 	# # Va;idating on the training set
