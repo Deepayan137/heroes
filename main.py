@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn import datasets, linear_model
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor
 from sklearn.metrics import mean_squared_error, r2_score, make_scorer
 from sklearn import pipeline, grid_search
 from sklearn.model_selection import GridSearchCV
@@ -29,7 +29,9 @@ if __name__ == '__main__':
 	print('processing GridSearch')
 	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10, 100]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
 	rf_regr = RandomForestRegressor()
-	model = GridSearchCV(rf_regr,parameters, n_jobs = -1, cv = 5, scoring=RMSE)
+	ada_regr = AdaBoostRegressor()
+	rf_model = GridSearchCV(rf_regr,parameters, n_jobs = -1, cv = 5, scoring=RMSE)
+
 
 	# # Va;idating on the training set
 	# model.fit(X_train, y_train)
@@ -43,11 +45,13 @@ if __name__ == '__main__':
  #      % mean_squared_error(y_val,y_pred_val))
 	# pdb.set_trace()
 	# Finally the test dataset
-	model.fit(X_test, y_test)
-	y_pred = model.predict(X_val)
+	rf_model.fit(X_test, y_test)
+	ada_regr.fit(X_test, y_test)
+	y_pred_rf = rf_model.predict(X_val)
+	y_pred_ada = ada_regr.fit(X_val)
 	# y_pred_linear = regr_linear.predict(X_val)
 	# final_pred = (y_pred+y_pred_linear)/2
-	final_pred = y_pred
+	final_pred = (y_pred_rf + y_pred_ada)/2
 	
 	def submission():
 		data = [[uid[i], final_pred[i]] for i in range(len(final_pred))]
