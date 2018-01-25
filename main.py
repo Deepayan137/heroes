@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
 	# print("Mean squared error: %.2f"
  #      % mean_squared_error(y_val,y_pred_val))
-	
+	pdb.set_trace()
 	# Finally the test dataset
 	model.fit(X_test, y_test)
 	y_pred = model.predict(X_val)
