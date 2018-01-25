@@ -29,7 +29,7 @@ if __name__ == '__main__':
 	print('processing GridSearch')
 	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
 	rf_regr = RandomForestRegressor()
-	model = GridSearchCV(rf_regr,parameters, n_jobs = 3, cv = 10)
+	model = GridSearchCV(rf_regr,parameters, n_jobs = 3, cv = 10, scoring=RMSE)
 
 	# Va;idating on the training set
 	model.fit(X_train, y_train)
