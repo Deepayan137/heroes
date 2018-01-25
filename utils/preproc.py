@@ -31,8 +31,8 @@ def read_data(train_1, train_9, hero_data, test=None):
 		merged_9 = transform(merged_9, attributes=["primary_attr", "attack_type","roles"])
 		merged_1 = transform(merged_1, attributes=["primary_attr", "attack_type","roles"])
 		y_train = merged_9["kda_ratio"]
-		X_train = merged_9.drop(["kda_ratio", "user_id", "id",  "hero_id", "base_health", "num_wins"], axis=1)
-		X_test = merged_1.drop(["hero_id",  "user_id", "id", "base_health"], axis=1)
+		X_train = merged_9.drop(["kda_ratio", "base_mana", "user_id", "id",  "hero_id", "base_health"], axis=1)
+		X_test = merged_1.drop(["hero_id",  "user_id", "id", "base_mana", "base_health"], axis=1)
 		return X_train, y_train, X_test, uid
 
 	merged_9 = df_9.merge(df_hero, on = 'hero_id', how='left')
@@ -43,8 +43,8 @@ def read_data(train_1, train_9, hero_data, test=None):
 	# merged_9["win_ratio"] = merged_9["num_wins"]/merged_9["num_games"]
 	y_train = merged_9["kda_ratio"]
 	y_val = merged_1["kda_ratio"]
-	X_train = merged_9.drop(["kda_ratio", "user_id", "id", "hero_id", "base_health"], axis=1)
-	X_val = merged_1.drop(["kda_ratio",  "user_id", "id", "hero_id", "base_health"], axis=1) 
+	X_train = merged_9.drop(["kda_ratio", "user_id", "id", "hero_id", "base_mana", "base_health"], axis=1)
+	X_val = merged_1.drop(["kda_ratio",  "user_id", "id", "hero_id", "base_mana", "base_health"], axis=1) 
 	return X_train, y_train, X_val, y_val, uid
 	
 if __name__ == '__main__':
