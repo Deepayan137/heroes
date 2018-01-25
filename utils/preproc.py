@@ -45,7 +45,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 	y_val = merged_1["kda_ratio"]
 	X_train = merged_9.drop(["kda_ratio", "user_id", "id", "hero_id", "base_health"], axis=1)
 	X_val = merged_1.drop(["kda_ratio",  "user_id", "id", "hero_id", "base_health"], axis=1) 
-	return X_train[1:], y_train, X_val[1:], y_val, uid
+	return X_train, y_train, X_val, y_val, uid
 	
 if __name__ == '__main__':
 	train_1 = params["train_1"]
