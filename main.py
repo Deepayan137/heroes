@@ -27,9 +27,9 @@ if __name__ == '__main__':
 	
 	# Model Creation
 	print('processing GridSearch')
-	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
+	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10, 100]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
 	model = RandomForestRegressor()
-	# model = GridSearchCV(rf_regr,parameters, n_jobs = -1, cv = 10, scoring=RMSE)
+	model = GridSearchCV(rf_regr,parameters, n_jobs = -1, cv = 5, scoring=RMSE)
 
 	# # Va;idating on the training set
 	# model.fit(X_train, y_train)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
 	# print("Mean squared error: %.2f"
  #      % mean_squared_error(y_val,y_pred_val))
-	pdb.set_trace()
+	# pdb.set_trace()
 	# Finally the test dataset
 	model.fit(X_test, y_test)
 	y_pred = model.predict(X_val)
