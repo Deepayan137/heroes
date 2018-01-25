@@ -31,7 +31,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 		merged_9 = transform(merged_9, attributes=["primary_attr", "attack_type","roles"])
 		merged_1 = transform(merged_1, attributes=["primary_attr", "attack_type","roles"])
 		y_train = merged_9["kda_ratio"]
-		X_train = merged_9.drop(["kda_ratio", "base_mana", "user_id", "id",  "hero_id", "base_health"], axis=1)
+		X_train = merged_9.drop(["kda_ratio", "base_mana", "user_id", "id",  "hero_id", "base_health", "num_wins"], axis=1)
 		X_test = merged_1.drop(["hero_id",  "user_id", "id", "base_mana", "base_health"], axis=1)
 		return X_train, y_train, X_test, uid
 
