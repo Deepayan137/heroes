@@ -22,14 +22,14 @@ if __name__ == '__main__':
 	test_1 = params["test_1"]
 	test_9 = params["test_9"]
 	hero_data = params["hero_data"]
-	X_train, y_train, X_val, = read_data(test_1, test_9, hero_data, test=1)
+	X_train, y_train, X_val, uid = read_data(test_1, test_9, hero_data, test=1)
 	
 	regr_linear = linear_model.LinearRegression()
 	print('processing GridSearch')
 	parameters = {"max_depth": [2,3,4,5,6,7,8,9,10,11,12],"min_samples_split" :[2,3,4,5,6] ,"n_estimators" : [10]    ,"min_samples_leaf": [1,2,3,4,5]    ,"max_features": (2,3,4)}
 	rf_regr = RandomForestRegressor()
 	model = GridSearchCV(rf_regr,parameters, n_jobs = 3, cv = 10)
-	pdb.set_trace()
+	# pdb.set_trace()
 	model.fit(X_train, y_train)
 	print("Best parameters found by grid search:")
 	print(model.best_params_)
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 	final_pred = y_pred
 	
 	def submission():
-		data = [[X_val["id"].iloc[i], final_pred[i]] for i in range(len(final_pred))]
+		data = [[uid[i], final_pred[i]] for i in range(len(final_pred))]
 		df = pd.DataFrame(data, columns=["id", "kda_ratio"])
 		df.to_csv("submission.csv", index=False)
 	submission()

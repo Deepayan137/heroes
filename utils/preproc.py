@@ -14,7 +14,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 	df_9 = pd.read_csv(train_9)
 	df_1 = pd.read_csv(train_1)
 	df_hero = pd.read_csv(hero_data)
-	
+	uid = df_1["id"]
 	def transform(df, **kwargs):
 		attributes = kwargs["attributes"]
 		for attribute in attributes:
@@ -25,6 +25,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 
 		df_9 = pd.read_csv(train_9)
 		df_1 = pd.read_csv(train_1)
+		uid = df_1["id"]
 		merged_9 = df_9.merge(df_hero, on = 'hero_id', how='left')
 		merged_1 = df_1.merge(df_hero, on = 'hero_id', how='left')
 		merged_9 = transform(merged_9, attributes=["primary_attr", "attack_type","roles"])
@@ -32,7 +33,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 		y_train = merged_9["kda_ratio"]
 		X_train = merged_9.drop(["kda_ratio", "user_id", "id",  "hero_id", "base_health", "num_wins"], axis=1)
 		X_test = merged_1.drop(["hero_id",  "user_id", "id", "base_health"], axis=1)
-		return X_train, y_train, X_test
+		return X_train, y_train, X_test, uid
 
 	merged_9 = df_9.merge(df_hero, on = 'hero_id', how='left')
 	merged_1 = df_1.merge(df_hero, on = 'hero_id', how='left')
@@ -44,7 +45,7 @@ def read_data(train_1, train_9, hero_data, test=None):
 	y_val = merged_1["kda_ratio"]
 	X_train = merged_9.drop(["kda_ratio", "user_id", "id", "hero_id", "base_health"], axis=1)
 	X_val = merged_1.drop(["kda_ratio",  "user_id", "id", "hero_id", "base_health"], axis=1) 
-	return X_train[1:], y_train, X_val[1:], y_val
+	return X_train[1:], y_train, X_val[1:], y_val, uid
 	
 if __name__ == '__main__':
 	train_1 = params["train_1"]
