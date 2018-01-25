@@ -23,7 +23,7 @@ if __name__ == '__main__':
 	test_9 = params["test_9"]
 	hero_data = params["hero_data"]
 	X_test, y_test, X_val, uid = read_data(test_1, test_9, hero_data, test=1)
-	X_train, y_train, X_val, y_val, uid = read_data(test_1, test_9, hero_data)
+	X_train, y_train, X_val, y_val, uid = read_data(train_1, train_9, hero_data)
 	
 	# Model Creation
 	print('processing GridSearch')
